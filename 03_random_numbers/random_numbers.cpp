@@ -1,11 +1,8 @@
 #include <iostream>
-#include <ctime>
 #include <random>
-#include <cstdlib>
 using namespace std;
 using std::cout;
 using std::endl;
-
 
 int main(void)
 {

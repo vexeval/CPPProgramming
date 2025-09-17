@@ -96,17 +96,19 @@ void rotateRight(vector<int> &v, int k)
 
 }
 
-void rotateLeft(vector<int> &v, int k) // TODO: FIX
+void rotateLeft(std::vector<int>& v, int k)
 {
-    k %= v.size(); // num of rotations
+    int n = v.size();
+    k = k % n; // Handle cases where k >= n
 
-    while (k) {
-        // Get the last and insert at the beginning
-        v.insert(v.end(), v.front());
-    
-        // Remove the last
-        v.erase(v.end());
-        k--;
+    std::vector<int> temp(v.begin(), v.begin() + k); // Store first k elements
+
+    for(int i = 0; i < n - k; i++) {
+        v[i] = v[i + k]; // Shift elements to the left
+    }
+
+    for(int i = 0; i < k; i++) {
+        v[n - k + i] = temp[i]; // Place stored elements at the end
     }
 
 }

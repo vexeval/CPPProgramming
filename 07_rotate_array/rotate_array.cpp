@@ -14,6 +14,10 @@ int main(void)
 
     rotateLeft(list, newList, SIZE, 1);
 
+    // for (int i = 0; i < SIZE; i++) {
+    //     cout << newList[i] << ' ';
+    // }
+
     // print the rotated array
     for (int i : newList) {
         cout << i << ' ';
@@ -24,6 +28,15 @@ int main(void)
 
 void rotateLeft(const int src[], int dest[], int size, int k) // k: number of rotations
 {
-    // 1) Calculate required rotation
-    
+    int start = size - (k % size);
+    int j = 0;
+    for (int i = start; i < size; i ++) {
+        dest[j] = src[i];
+        j++;
+    }
+
+    for (int i = 0; i < start; i++) {
+        dest[j] = src[i];
+        j++;
+    }
 }

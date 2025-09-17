@@ -29,18 +29,17 @@ int main(void)
     Print("Yo\n");
     int a = 4;
     int b = 6;
-    Print("Before Swap: a: " + to_string(a) + ", b: " + to_string(b) + "\n");
-    Swap(a,b);
-    Print("After Swap: a: " + to_string(a) + ", b: " + to_string(b) + "\n");
+    // Print("Before Swap: a: " + to_string(a) + ", b: " + to_string(b) + "\n");
+    // Swap(a,b);
+    // Print("After Swap: a: " + to_string(a) + ", b: " + to_string(b) + "\n");
 
-
-    double x = -6;
-    double y = 4;
-    double z = sqrt(7);
-    Vector2 result = Quadratic(x, y, z);
+    float x = 4.0*3.0/4.0;
+    float y = 9.0/16.0;
+    float z = sqrt(7);
+    // Vector2 result = Quadratic(x, y, z);
     cout << "Values a=" << x << ", b=" << y << ", c=" << z << endl;
-    Print("Result +x: " + to_string(result.x) + "\n");
-    Print("Result -x: " + to_string(result.y) + "\n");
+    // Print("Result +x: " + to_string(result.x) + "\n");
+    // Print("Result -x: " + to_string(result.y) + "\n");
 
     return 0;
 }

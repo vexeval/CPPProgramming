@@ -5,6 +5,7 @@
 using namespace std;
 
 void print_selection(string names[], int selected);
+void printBarOfLength(int length, char barChar);
 
 int main(void)
 {
@@ -20,9 +21,19 @@ int main(void)
     return 0;
 }
 
+
 void print_selection(string names[], int selected)
 {
-    cout << "**********" << endl;
+    printBarOfLength(names[selected].size(), '*');
     cout << names[selected] << endl;
-    cout << "**********" << endl;
+    printBarOfLength(names[selected].size(), '*');
+}
+
+// Prints a quantity (length) of a character (barChar), line breaking at the end.
+void printBarOfLength(int length, char barChar)
+{
+    for (int i = 0; i < length; i++) {
+        cout << barChar;
+    }
+    cout << endl;
 }

@@ -2,22 +2,25 @@
 #include <iostream>
 
 // Implement constructor
-MyVector::MyVector(int capacity) : size(0)
+template <typename T>
+MyVector<T>::MyVector(int capacity) : size(0)
 {
     this->capacity = capacity;
     elements = new int[capacity];
 }
 
-MyVector::~MyVector()
+template <typename T>
+MyVector<T>::~MyVector()
 {
     delete [] elements;
 }
 
-MyVector::MyVector(const MyVector& other)
+template <typename T>
+MyVector<T>::MyVector(const MyVector<T>& other)
 {
     size = other.size;
     capacity = other.capacity;
-    elements = new int[capacity];
+    elements = new T[capacity];
 
     // copy elements
     for (int i = 0; i < size; i++)
@@ -26,7 +29,8 @@ MyVector::MyVector(const MyVector& other)
     }
 }
 
-void MyVector::push_back(int value)
+template <typename T>
+void MyVector<T>::push_back(const T& value)
 {
     if (size >= capacity) {
         allocate_memory(capacity * 2);
@@ -37,7 +41,8 @@ void MyVector::push_back(int value)
 
 // TODO 3: method to remove last element from vector
 // void pop_back(); //(capacity should not be greater than doubled size)
-int MyVector::pop_back(void)
+template <typename T>
+T MyVector<T>::pop_back(void)
 {
     if (size > 0) {
         if (size - 1 < capacity / 2) {
@@ -50,8 +55,8 @@ int MyVector::pop_back(void)
         throw "The vector is empty!";
     }
 }
-
-void MyVector::print() const
+template <typename T>
+void MyVector<T>::print() const
 {
     std::cout << "[ ";
     for (int i = 0; i < size; i++)
@@ -61,11 +66,12 @@ void MyVector::print() const
     std::cout << "]\n";
 }
 
-void MyVector::allocate_memory(int memory_size)
+template <typename T>
+void MyVector<T>::allocate_memory(int memory_size)
 {
     capacity = memory_size;
     int *old = elements;
-    elements = new int[memory_size];
+    elements = new T[memory_size];
 
     // copy elements, allocate new memory (bigger or smaller)
     for (int i = 0; i < size; i++) {
@@ -76,10 +82,57 @@ void MyVector::allocate_memory(int memory_size)
     delete [] old;
 }
 
-int& MyVector::at(int index)
+template <typename T>
+T& MyVector<T>::at(int index)
 {
     if (index < 0 || index > size - 1) {
         throw "Invalid index";
     }
     return elements[index];
+}
+
+template <typename T>
+int MyVector<T>::getSize() const {
+    return size;
+}
+
+template <typename T>
+void MyVector<T>::clear() {
+    delete [] elements;
+    size = 0;
+    capacity = 10;
+    elements = new int[capacity];
+}
+
+template <typename T>
+void push_front(const T& value) {
+    insert(0, value);
+}
+
+template <typename T>
+void insert(int pos, const T& value) {
+    // conert negative index
+    if (pos < 0) {
+        pos = size + pos + 1;
+    }
+
+    // check bounds
+    if (pos < 0 || pos > size) {
+        return;
+    }
+
+    // if new size exceeds capacity, double it
+    if (size + 1 > capacity) {
+        // double capacity, or set to 1 if its currently set to 0.
+        allocate_memory(capacity > 0 ? capacity * 2 : 1);
+    }
+
+    // shift elements to the right starting from the end down to position
+    for (int i = size; i > pos; i--) {
+        elements[i] = elements[i - 1];
+    }
+
+    // insert at specified pos
+    elements[pos] = value;
+    size++;
 }

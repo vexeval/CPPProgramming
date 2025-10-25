@@ -92,6 +92,12 @@ T& MyVector<T>::at(int index)
 }
 
 template <typename T>
+T& MyVector<T>::operator[](int index)
+{
+    return (index == 0) ? x : y;
+}
+
+template <typename T>
 int MyVector<T>::getSize() const {
     return size;
 }

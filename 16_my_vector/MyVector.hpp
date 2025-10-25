@@ -15,6 +15,8 @@ public:
 
     T& at(int index);
 
+    T& operator[](int index);
+
     void clear();
     int getSize() const;
     void push_front(const T& value);

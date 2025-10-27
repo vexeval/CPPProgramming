@@ -101,3 +101,44 @@ Point Point::operator++(int )
     this->y += 1;
     return *this;
 }
+
+// Pre-increment
+Point Point::operator--()
+{
+    x -= 1;
+    y -= 1;
+    return *this;
+}
+
+// Post-increment
+Point Point::operator--(int )
+{
+    Point t(*this);
+    this->x -= 1;
+    this->y -= 1;
+    return *this;
+}
+
+void Point::operator=(const Point& other)
+{
+    x = other.x;
+    y = other.y;
+
+    if (tag) {
+        delete [] tag;
+    }
+    if (other.tag) {
+        int size = strlen(other.tag);
+        tag = new char[size + 1];
+        strcpy(tag, other.tag);
+    }
+    else {
+        tag = nullptr;
+    }
+}
+
+std::ostream& operator<<(std::ostream& out, Point& point)
+{
+    out << point.toString();
+    return out;
+}

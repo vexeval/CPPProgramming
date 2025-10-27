@@ -2,10 +2,11 @@
 #define POINT_H
 
 #include <string>
+#include <ostream>
 
 class Point {
 public:
-    Point(int x = 0, int y = 0, char *tag = nullptr);
+    Point(int x = 0, int y = 0, const char *tag = nullptr);
 
     // Destructor
     ~Point();
@@ -41,14 +42,24 @@ public:
     Point operator--();
     Point operator--(int );
 
+    // Assignment operator
+    void operator=(const Point& other);
+
     std::string toString(void) const;
-    
+
+    // Friend function
+    friend int sum_coordinates();
+
+    friend std::ostream& operator<<(std::ostream& out, Point& point);
+    friend std::ostream& operator>>(std::ostream& in, Point& point);
     
 private:
     int x;
     int y;
     char *tag;
-
 };
+
+// Extraction operator
+// std::ostream& operator<<(std::ostream& out, Point& point);
 
 #endif

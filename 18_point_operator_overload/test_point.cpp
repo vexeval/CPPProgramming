@@ -1,6 +1,11 @@
 #include <iostream>
 #include "Point.hpp"
 
+int sum_coordinates() {
+    Point p(3, 5, "p");
+    return p.x + p.y;
+}
+
 int main(void)
 {
     // Test unary operator
@@ -22,6 +27,12 @@ int main(void)
     
     p3 = p1;
     std::cout << p3.toString() << std::endl;
+
+    // Test friend function
+    std::cout << sum_coordinates() << std::endl;
+
+    // Test << operator
+    std::cout << p2 << " " << p3 << std::endl;
 
     return 0;
 }

@@ -8,14 +8,11 @@ class Weapon // Abstract class, cannot create objects of it
 {
 public:
     virtual void use(void) = 0; // Pure virtual function
-    virtual void reload(void);
 };
 
 class Gun : public Weapon
 {
 public:
-    int magazineSize;
-    int ammo;
     void use(void) override
     {
         std::cout << "BANG!" << std::endl;
@@ -49,10 +46,16 @@ public:
 class Knife : public Weapon
 {
 public:
+    Knife(bool stainless=false) : is_stainless(stainless) {}
     void use(void) override
     {
         std::cout << "Slash!" << std::endl;
     }
+
+    bool getStainless(void) const { return is_stainless; }
+
+private:
+    bool is_stainless;
 };
 
 class Player
@@ -60,7 +63,24 @@ class Player
 public:
     void use_weapon(Weapon& weapon)
     {
-        weapon.use();
+        // Dynamic casting
+        Knife *knife = dynamic_cast<Knife*>(&weapon); // casting of a parent address to a child pointer
+        if (knife != NULL)
+        {
+            if (knife->getStainless())
+            {
+                std::cout << "Stainless knife. Can use it." << std::endl;
+                weapon.use();
+            }
+            else
+            {
+                std::cout << "Cannot use not stainless knife." << std::endl;
+            }
+        }
+        else
+        {
+            std::cout << "Not a knife bruh" << std::endl;
+        }
     }
 };
 

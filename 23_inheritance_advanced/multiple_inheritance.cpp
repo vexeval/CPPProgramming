@@ -7,6 +7,7 @@ public:
     {
         std::cout << "I am a suspicious character.";
     }
+    Character();
     int hp;
 };
 
@@ -34,13 +35,17 @@ public:
 
 class BlaineTerrorist : public Sheep, public Bob
 {
-
+    void think() const
+    {
+        std::cout << "I need to commit blait.\n";
+    }
 };
 
 int main(void)
 {
     BlaineTerrorist bt;
-    bt.think();
+    Character& blt = bt;
+    blt.think();
 
     std::cout << bt.Bob::hp;
 }

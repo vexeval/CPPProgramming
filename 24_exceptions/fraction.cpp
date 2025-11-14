@@ -1,4 +1,21 @@
 #include <iostream>
+#include <stdexcept>
+
+class big_value : public std::logic_error
+{
+public:
+    big_value(int code = 1, std::string msg = "") : exp_code(code), exp_msg(msg), std::logic_error(msg)
+    {
+
+    }
+    std::string what()
+    {
+        return "Error code: " + std::to_string(exp_code) + ". " + exp_msg;
+    }
+private:
+    int exp_code;
+    std::string exp_msg;
+};
 
 class Fraction
 {
@@ -12,7 +29,13 @@ public:
     {
         if (denom == 0) { throw "Error: Cannot divide by zero."; }
         if (numer < -100) { std::string ex("Error: Number is too small"); throw ex;}
-        if (numer < 0) { throw 777; }
+        if (numer > 100) { throw big_value(100, "Numerator cannot be greater than 100"); }
+        if (numer / denom < 0) { throw std::logic_error("Cannot handle negative fractions"); }
+        if ((numer < 0 && denom > 0) || (numer > 0 && denom < 0))
+        {
+            // HELP HELP HELP WHAT WHAT OH NO OH NO WAIT WAIT AH
+            throw 777;
+        }
 
         return numer / denom;
     }
@@ -45,12 +68,16 @@ int main(void)
     {
         std::cout << i << std::endl;
     }
-    catch (...) // catch anything
+    catch (const std::exception& ex)
+    {
+        std::cout << ex.what() << std::endl;
+    }
+    catch (...) // catch anything else
     {
         std::cout << "Unknown error" << std::endl;
     }
 
-    std::cout << "Deleting root filesystem...\n";
+    std::cout << "Continues nominally...\n";
 
     return 0;
 }

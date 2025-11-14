@@ -33,7 +33,7 @@ public:
     }
 };
 
-class BlaineTerrorist : public Sheep, public Bob
+class BobSheep : public Sheep, public Bob
 {
     void think() const
     {
@@ -43,9 +43,9 @@ class BlaineTerrorist : public Sheep, public Bob
 
 int main(void)
 {
-    BlaineTerrorist bt;
-    Character& blt = bt;
-    blt.think();
+    BobSheep bs;
+    Character& bsc = bs;
+    bsc.think();
 
-    std::cout << bt.Bob::hp;
+    std::cout << bs.Bob::hp;
 }

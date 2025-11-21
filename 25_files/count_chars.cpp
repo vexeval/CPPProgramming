@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 
     char ch;
     int count_chars = 0;
+    int count_lines = 1;
     while (!in.eof())
     {
         ch = in.get(); // Getting one character from a file || also: in.put()
@@ -36,17 +37,15 @@ int main(int argc, char *argv[])
         {
             count_chars++;
         }
+        else if (ch == '\n')
+        {
+            count_lines++;
+        }
     }
 
     std::cout << file_name << " has " << count_chars << " characters.\n";
 
     // TODO: Count the number of lines in the file
-    char lch;
-    int count_lines = 0;
-    while (!in.eof())
-    {
-        
-    }
 
     std::cout << file_name << " has " << count_lines << " lines.\n";
 

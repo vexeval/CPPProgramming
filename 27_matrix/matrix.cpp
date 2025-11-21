@@ -1,23 +1,27 @@
 #include "matrix.hpp"
 #include <iostream>
 #include <stdexcept>
+#include <iomanip>
+#include <fstream>
 
-Matrix::Matrix(int rows, int cols)
+template <typename T>
+Matrix<T>::Matrix(int rows, int cols)
 {
     if (rows < 1 || cols < 1)
     {
         this->rows = 0;
         this->cols = 0;
+        data = nullptr;
         throw std::logic_error("Rows and cols should be positive!"); // exception
     }
 
     this->rows = rows;
     this->cols = cols;
 
-    data = new int*[this->rows]; // array of pointers to int
+    data = new T*[this->rows]; // array of pointers to int
     for (int i = 0; i < this->rows; i++)
     {
-        data[i] = new int[this->cols];
+        data[i] = new T[this->cols];
     }
     
     // Initialize the values with 0's
@@ -25,19 +29,109 @@ Matrix::Matrix(int rows, int cols)
     {
         for (int j = 0; j < this->cols; j++)
         {
-            data[i][j] = 0;
+            data[i][j] = T();
         }
     }
 }
-Matrix::~Matrix()
+template <typename T>
+Matrix<T>::~Matrix()
 {
-
+    for (int i = 0; i < rows; i++)
+    {
+        delete [] data[i];
+    }
+    delete [] data;
 }
-Matrix::Matrix(const Matrix& other)
+template <typename T>
+Matrix<T>::Matrix(const Matrix<T>& m)
 {
+    rows = m.rows;
+    cols = m.cols;
 
+    // Memory Allocation
+    data = new T*[this->rows]; // array of pointers to int
+    for (int i = 0; i < this->rows; i++)
+    {
+        data[i] = new T[this->cols];
+    }
+
+    // Initialize the values
+    for (int i = 0; i < this->rows; i++)
+    {
+        for (int j = 0; j < this->cols; j++)
+        {
+            data[i][j] = m.data[i][j];
+        }
+    }
 }
-Matrix& Matrix::operator=(const Matrix& other)
+template <typename T>
+Matrix<T>& Matrix<T>::operator=(const Matrix<T>& other)
 {
+    if (data)
+    {
+        for (int i = 0; i < rows; i++)
+        {
+            delete [] data[i];
+        }
+        delete [] data;
+    }
 
+    rows = other.rows;
+    cols = other.cols;
+
+    // Memory Allocation
+    data = new T*[this->rows]; // array of pointers to int
+    for (int i = 0; i < this->rows; i++)
+    {
+        data[i] = new T[this->cols];
+    }
+
+    // Initialize the values
+    for (int i = 0; i < this->rows; i++)
+    {
+        for (int j = 0; j < this->cols; j++)
+        {
+            data[i][j] = other.data[i][j];
+        }
+    }
+
+    return *this;
+}
+template <typename T>
+void Matrix<T>::print() const
+{
+    for (int i = 0; i < rows; i++)
+    {
+        for (int j = 0; j < cols; j++)
+        {
+            std::cout << std::setw(6) << data[i][j];
+        }
+        std::cout << "\n";
+    }
+    std::cout << "\n";
+}
+template <typename T>
+Matrix<T> Matrix<T>::load(const char *filename)
+{
+    std::ifstream in(filename);
+    if (!in)
+    {
+        throw std::logic_error("File could not be opened!\n");
+    }
+
+    int r, c;
+    in >> r >> c; // Scan two first values from a file
+
+    Matrix m(r, c);
+
+    for (int i = 0; i < r; i++)
+    {
+        for (int j = 0; j < c; j++)
+        {
+            in >> m.data[i][j];
+        }
+    }
+
+    in.close();
+    return m;
 }
